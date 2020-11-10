@@ -1,0 +1,85 @@
+
+
+
+{% if name is not empty %}
+
+	<div class="mdl-shadow--2dp mdl-color--white" id="implementationbox">
+		<div class="mdl-grid">
+			<div class="mdl-cell mdl-cell--8-col">
+				<h4 id="implname" implementationid="{{ id }}">
+					<span>{{ name }}</span>
+
+				</h4>
+			</div>
+			<div class="mdl-cell mdl-cell--2-col textalignright">
+				<span>{{ id }}</span>
+			</div>
+		</div>
+		<div class="mdl-grid" style="margin-bottom: 1rem;">
+			<span id="impldescription">{{ description|nl2br }}</span>
+
+		</div>
+		<div class="mdl-grid" style="margin-bottom: 1rem;">
+			<div class="mdl-cell mdl-cell--8-col">
+				<div class="mdl-cell">
+
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1"> <input type="radio" id="option-1" class="mdl-radio__button" name="contenttype"
+						value="application/json; charset=utf-8" checked> <span class="mdl-radio__label">JSON</span>
+					</label>
+				</div>
+
+				<div class="mdl-cell">
+
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2"> <input type="radio" id="option-2" class="mdl-radio__button" name="contenttype" value="application/xml; charset=utf-8">
+						<span class="mdl-radio__label">XML</span>
+					</label>
+				</div>
+
+
+
+				<div class="mdl-cell">
+
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3"> <input type="radio" id="option-3" class="mdl-radio__button" name="contenttype" value="text/plain; charset=utf-8">
+						<span class="mdl-radio__label">Plaintext</span>
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="mdl-grid">
+				<div class="mdl-cell">
+                	 <label class = "mdl-switch mdl-js-switch mdl-js-ripple-effect" 
+	                  for = "synchronousImpl"><span class="mdl-switch__label">Synchronous</span>
+	                  <input type = "checkbox" id = "synchronousImpl" 
+	                     class = "mdl-switch__input">
+	                  </label>
+				</div>
+
+
+			<div class="mdl-textfield mdl-js-textfield" style="width: 90%;">
+
+				<textarea class="mdl-textfield__input pre" type="text" rows="15" id="postContent"></textarea>
+
+				<label class="mdl-textfield__label" for="content">Raw post content goes here (payload)</label>
+			</div>
+		</div>
+		<div class="mdl-grid">
+			<button class="mdl-button mdl-js-button mdl-button--raised" onclick="startExec();")>Start execution</button>
+		</div>
+		<div class="mdl-grid">
+			<pre id="responseContent"></pre>
+		</div>
+	</div>
+
+{% endif %}
+
+<ul class="maxwidth80rem mdl-list">
+	{% for listrow in listrows %}
+	<li class="mdl-list__item mdl-list__item--three-line"><span class="mdl-list__item-primary-content"> <i class="material-icons mdl-list__item-avatar">folder</i> <a
+				href="/{{ uiurlprefix }}implementations/{{ listrow.id }}">
+				<span>{{ listrow.name }}</span>
+			</a> <span class="mdl-list__item-text-body"> {{ listrow.description|nl2br }}</span>
+
+	</span> <span class="mdl-list__item-secondary-content"> {{ listrow.id }}</span></li>
+
+	{% endfor %}
+</ul>

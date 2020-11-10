@@ -1,0 +1,48 @@
+
+<form id="datepickerform" autocomplete="off" style="min-height:5rem;">
+	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label shortinputbox">
+		<input class="mdl-textfield__input" type="text" id="beginDate" name="beginDate" value="{{ dataBeginDate }}"> <label class="mdl-textfield__label" for="beginDate">Date from</label>
+	</div>
+	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label shortinputbox">
+		<input class="mdl-textfield__input" type="text" id="endDate" name="endDate" value="{{ dataEndDate }}"> <label class="mdl-textfield__label" for="endDate">Date to</label>
+	</div>
+
+	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select shortinputbox">
+		<input type="text" value="" class="mdl-textfield__input" id="statusFilter" readonly> <input type="hidden" value="" name="statusFilter"> <i
+			class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i> <label for="statusFilter" class="mdl-textfield__label">Status</label>
+		<ul for="statusFilter" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+			<li class="mdl-menu__item" data-val="">Any</li>
+			<li class="mdl-menu__item" data-val="DONE">Done</li>
+			<li class="mdl-menu__item" data-val="ERROR">Error</li>
+			<li class="mdl-menu__item" data-val="HALTED">Halted</li>
+		</ul>
+	</div>
+	<input type="hidden" value="{{ implementationFilter }}" name="implementationFilter">
+	<button id="updateDates" type="submit" formmethod="get" class="mdl-button mdl-js-button mdl-js-ripple-effect">Update</button>
+
+</form>
+
+
+<script>
+    $(function () {
+        $("#beginDate").datepicker({
+            "dateFormat" : 'yy-mm-dd 00:00',
+            'constrainInput' : false
+        });
+
+        $("#endDate").datepicker({
+            "dateFormat" : 'yy-mm-dd 00:00',
+            'constrainInput' : false
+        });
+
+        var existingStatus = getUrlParameter('statusFilter')
+
+        if (existingStatus) {
+			$('li[data-val='+existingStatus+']').attr('data-selected','true')
+        }
+		
+        
+    });
+
+
+</script>

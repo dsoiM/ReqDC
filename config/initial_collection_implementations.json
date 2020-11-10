@@ -1,0 +1,2 @@
+{"_id":{"$oid":"5d53c7fe320b823140c648a4"},"id":"UnitTestImplementation1","name":"Unit test implementation 1","maxRunExecCount":"1","description":"Unit test impl descr","notificationEmailRecipients":"test@test.local"}
+{"id":"MainImplementation1","name":"My first implementation","maxRunExecCount":"1","description":"Description goes here","notificationEmailRecipients":"test@test.local"}

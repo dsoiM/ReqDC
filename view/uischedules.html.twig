@@ -1,0 +1,121 @@
+<button class="mdl-button mdl-button--raised mdl-js-button dialog-button" style="margin-bottom:10px;">Add new schedule with cron</button>
+
+<div class="mdl-card mdl-shadow--4dp width90 ">
+
+    <table id="scheduleTable" class="table table-striped " cellspacing="0" width="100%">
+    	<thead>
+    		<tr>
+    
+    			<th>ImplementationId</th>
+    			<th>Last run</th>
+    			<th>Next run</th>
+    			<th>Currently executed</th>
+    			<th>Cron expression</th>
+    
+    		</tr>
+    	</thead>
+    
+    	<tbody>
+    		{% for tablerow in tableRows %}
+    		<tr>
+    			<td>{{tablerow.implementationId}}</td>
+    			<td>{{tablerow.lastRun.toDateTime()|default(0) | date(userviewvars.dateformat,userviewvars.timezone)   }}</td>
+    			<td>{{tablerow.nextRun.toDateTime() | date(userviewvars.dateformat,userviewvars.timezone) }}</td>
+    			<td>{{tablerow.pickedUpBy}}</td>
+    			<td class="editMe">{{tablerow.cronExpression}}</td>
+    			
+    		</tr>
+    		{% endfor %}
+    
+    	</tbody>
+    </table>
+</div>
+
+<dialog id="dialog" class="mdl-dialog" style="width:min-content;">
+<h3 class="mdl-dialog__title">Add cron expression</h3>
+<div class="mdl-dialog__content">
+	<form id="newCronExpressionEntry" onsubmit="event.preventDefault();">
+
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			<input name="cronExpr" class="mdl-textfield__input" type="text" id="cronExpr"> <label class="mdl-textfield__label"
+				for="cronExpr">Cron expression</label>
+		</div>
+
+
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+			<input type="text" value="" class="mdl-textfield__input" id="statusFilter" readonly> <input type="hidden"
+				value="string" name="implementationId"> <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i> <label
+				for="implementationId" class="mdl-textfield__label">ImplementationId</label>
+			<ul for="implementationId" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+				{% for dt in implementationIds %}
+						<li class="mdl-menu__item" data-val="{{ dt }}">{{ dt }}</li>
+				{% endfor %}
+
+			</ul>
+		</div>
+	</form>
+</div>
+<div class="mdl-dialog__actions">
+	<button type="button" onclick="addNewCronExpressionSave();" class="mdl-button">Save</button>
+	<button id="cancelbutton" type="button" class="mdl-button">Cancel</button>
+</div>
+</dialog>
+
+
+
+<script>
+
+const editor = new SimpleTableCellEditor("scheduleTable" );
+
+$(document).ready(function () {
+    editor.SetEditableClass("editMe",{
+    
+        keys : {
+          validation: [0],
+          cancellation: [27]
+        },
+        formatter: (val) => {return trimProper(val)},
+
+      });
+    
+    $('#scheduleTable').dataTable({
+        "paging": false,
+        "order": [ 0, "asc" ],
+    	"columnDefs": [
+        //{ "width": "15%", "targets":[0,1] }
+      ]
+    });
+
+
+    var dialogButton = document.querySelector('.dialog-button');
+    var dialog = document.querySelector('#dialog');
+    if (! dialog.showModal) {
+      dialogPolyfill.registerDialog(dialog);
+    }
+    dialogButton.addEventListener('click', function() {
+       dialog.showModal();
+    });
+
+    dialog.querySelector('#cancelbutton')
+    .addEventListener('click', function() {
+      dialog.close();
+    });
+    
+	
+
+    
+    $('#scheduleTable').on("cell:edited", function (element) {
+
+    	var implementationId = element.element.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerText
+		var value = element.element.innerText
+        cronExpressionSet(implementationId,value)
+      }); 
+});
+
+function addNewCronExpressionSave() {
+
+	var formData = $('#newCronExpressionEntry').serializeArray();	
+
+	cronExpressionSet(formData[1].value,formData[0].value);
+}
+</script>

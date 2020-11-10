@@ -1,0 +1,2 @@
+{"_id":{"$oid":"5cc58d5ee7e3aa475f2fc2bc"},"id":"mightyadmin@reqdc.local","password":"$2y$10$j3R5ZN1q/Oo9cJYbu23DYulNb3TWNM496J7iDDVx89QHFN03M/3N.","email":"mightyadmin@reqdc.local","name":"testname","admin":true}
+{"_id":{"$oid":"5d0e10219dc6d61a8a6bdb83"},"id":"unittestuser@test.local","password":"$2y$10$wkD3l0VuFyYR1yd65XxQIuxG.eROpr04Bwj5i9ACPGjuyw4C7m1EG","email":"unittestuser@test.local","name":"unit test user"}

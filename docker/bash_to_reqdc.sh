@@ -1,0 +1,1 @@
+docker exec -it $(docker ps | grep reqdc | cut -d' ' -f1) /bin/bash 

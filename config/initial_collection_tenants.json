@@ -1,0 +1,2 @@
+{"_id":{"$oid":"5d07d7e69dc6d6158436c053"},"id":"unitTestTenant","name":"Unittest tenant","allowedUserIds":["teppo","unittestuser@test.local"],"allowedImplementations":["UnitTestImplementation1"],"adminUserIds":["unittestuser@test.local"]}
+{"id":"mainTenant","name":"Main tenant","allowedUserIds":["mightyadmin@reqdc.local"],"allowedImplementations":["MainImplementation1"],"adminUserIds":["mightyadmin@reqdc.local"]}

@@ -1,0 +1,216 @@
+
+{% if type == "list" %}
+{{ include('dateRangePicker.html.twig') }}
+
+
+
+
+
+
+{% if implementationFilter %}
+
+<div id="implementationFilter" class="mdl-grid">
+	<span class="mdl-chip mdl-chip--deletable"> <span class="mdl-chip__text">{{ implementationFilter }}</span>
+		<button type="button" class="mdl-chip__action" onclick="removeExecutionsImplementationFilter();">
+			<i class="material-icons">cancel</i>
+		</button>
+	</span>
+</div>
+{% endif %}
+
+<div class="mdl-card mdl-shadow--4dp width90 ">
+	<table id="executionsTable" class="table table-striped tablelayoutfixed"  stylecellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th><button  title="Select all / deselect all" onclick="toggleSelectAllCheckboxes();" class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">select_all</i></button></th>
+				<th title="Click on the button to open execution detailed view">Details</th>
+				<th>Status</th>
+				<th style="min-width: 5rem;">Start time</th>
+				<th title="Implementation ID">Implementation</th>
+				<th title="If excution was started synchronously">Sync</th>
+				<th>Request payload</th>
+
+			</tr>
+		</thead>
+
+
+		{% if tableRows|length == resultLimit %}
+    		<span style="position:absolute;margin:0.5rem;">Maximum limit of {{resultLimit}} results reached</span>
+        {% endif %}
+		<tbody>
+
+			{% for tablerow in tableRows %}
+			<tr id="{{ tablerow._id}}">
+				<td><label style="margin-left:0.7rem;" class="mdl-checkbox mdl-js-checkbox" for="elcb_{{ tablerow._id}}"><input type="checkbox" id="elcb_{{tablerow._id}}" class="mdl-checkbox__input executioncheckbox "></label></td>
+				<td><a href="/{{ uiurlprefix }}executions/{{ tablerow._id}}"><button class="mdl-button mdl-js-button mdl-button--icon">
+							<i class="material-icons">open_in_browser</i>
+						</button></a></td>
+				<td><b style="color:{{tablerow.color }};">{{tablerow.status}}</b></td>
+				<td>{{tablerow.startTime.toDateTime()|date(userviewvars.dateformat,userviewvars.timezone)}}</td>
+				<td>{{tablerow.implementationId}}</td>
+				<td>{{tablerow.scheduled ? 'No':'Yes' }}</td>
+				<td><div class="payloadcontainer">{{tablerow.requestObj.payload }}</div></td>
+			</tr>
+			{% endfor %}
+			
+
+			
+
+		</tbody>
+	</table>
+</div>
+
+{% else %}
+<div style="display: flex; flex-wrap: wrap;">
+	<div class="mdl-card mdl-shadow--4dp flexiblecard">
+		<div class="mdl-card__title">
+			<h2 class="mdl-card__title-text">Execution and its Requests details</h2>
+		</div>
+		<div class="mdl-card__supporting-text makeflex">
+			<div><label style="margin-left:0.7rem;" class="mdl-checkbox mdl-js-checkbox" for="elcb_{{ id }}"><input type="checkbox" id="elcb_{{id}}" class="mdl-checkbox__input executioncheckbox " checked></label></div>
+			<table class="mdl-data-table mdl-js-data-table">
+				<tbody>
+					<tr>
+						<td style="width:15rem;">Execution ID</td> 
+						<td class="mdl-data-table__cell--non-numeric">{{ id }}</td>
+					</tr>
+					<tr>
+						<td>Execution start time</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.startTime.toDateTime()|date(userviewvars.dateformat,userviewvars.timezone) }}</td>
+					</tr>
+					<tr>
+						<td>Execution end time</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.endTime.toDateTime()|date(userviewvars.dateformat,userviewvars.timezone) }}</td>
+					</tr>
+
+					<tr>
+						<td>Execution status</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.status }}</td>
+					</tr>
+					
+					<tr>
+						<td>Execution node</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.node }}</td>
+					</tr>
+					<tr>
+						<td>Request ID</td>
+						<td class="mdl-data-table__cell--non-numeric"><a href="/requests/{{ obj.requestId }}">{{ obj.requestId }}</a></td>
+					</tr>
+					
+					<tr>
+						<td>Schedule ID</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.scheduleId }}</td>
+					</tr>
+					<tr>
+						<td>Schedule POID</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.POID }}</td>
+					</tr>
+					
+					<tr>
+						<td>Request channel type</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.getRequest(true).reqClassName }}</td>
+					</tr>
+					<tr>
+						<td>Request content type</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.getRequest(true).contentType}}</td>
+					</tr>
+					<tr>
+						<td>Request User ID</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.getRequest(true).userId }}</td>
+					</tr>
+					<tr>
+						<td>Request receive node</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.getRequest(true).node }}</td>
+					</tr>
+					<tr>
+						<td>Request receive time</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.getRequest(true).getId().getTimeStamp()|date(userviewvars.dateformat,userviewvars.timezone) }}</td>
+					</tr>
+
+					<tr>
+						<td>Implementation name</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.getImplementation().getName() }}</td>
+					</tr>
+					<tr>
+						<td>Implementation ID</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.getImplementation().getId() }}</td>
+					</tr>
+
+					<tr>
+						<td>Synchronous</td>
+						<td class="mdl-data-table__cell--non-numeric">{{ obj.scheduled ? 'No':'Yes' }}</td>
+					</tr>
+
+				</tbody>
+			</table>
+
+
+		</div>
+	</div>
+
+	<div class="mdl-card mdl-shadow--4dp flexiblecard">
+		<div class="mdl-card__title">
+			<h2 class="mdl-card__title-text">Request payload/body</h2>
+		</div>
+		<div class="mdl-card__supporting-text  makeflex">
+			<pre>{{ obj.getRequest(true).payload}}</pre>
+		</div>
+	</div>
+
+	<div class="mdl-card mdl-shadow--4dp  flexiblecard">
+		<div class="mdl-card__title">
+			<h2 class="mdl-card__title-text">Response body</h2>
+		</div>
+		<div class="mdl-card__supporting-text width90 makeflex">
+			<pre>{{ obj.responseContent|default('[empty]') }}</pre>
+		</div>
+	</div>
+</div>
+
+<div class="mdl-card mdl-shadow--4dp  flexiblecard" style="min-width: 90%;">
+	<div class="mdl-card__title">
+		<h2 class="mdl-card__title-text">Logs</h2>
+	</div>
+	<div class="mdl-card__supporting-text  makeflex">
+		<table>
+			<tbody>
+				{% for logRow in logArray %}
+				<tr>
+					<td class="mdl-data-table__cell--non-numeric">{{logRow.time.toDateTime()|date(userviewvars.dateformat,userviewvars.timezone)}}</td>
+					<td class="mdl-data-table__cell--non-numeric">{{logRow.level}}</td>
+					<td class="mdl-data-table__cell--non-numeric">{{logRow.msg}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	</div>
+</div>
+
+
+
+{% endif %}
+
+<script>
+$(document).ready(function () {
+	$('#executionsTable').dataTable({
+		"paging": false,
+		"columnDefs": [ 
+			{"targets": [0,1], "orderable": false},
+			{ "width": "6rem", "targets": [0,1,5] },
+			{ "width": "9rem", "targets": [2,3] },
+			{ "width": "15rem", "targets": [4] }
+		 ],
+		"order": [[ 3, "desc" ]]
+	});
+
+
+	// If executioncheckbox changed
+	$(".executioncheckbox").change(refreshExecutionHandlerButtons);
+	refreshExecutionHandlerButtons();
+
+
+
+});
+</script>
+

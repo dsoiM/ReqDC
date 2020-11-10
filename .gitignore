@@ -1,0 +1,7 @@
+.project
+.phpunit.result.cache
+.settings
+/.settings
+/testResults/
+/testresults/
+/vendor/

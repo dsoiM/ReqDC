@@ -1,0 +1,198 @@
+
+<div class="mdl-grid">
+	<div class="mdl-cell mdl-cell--12-col">
+		<h4>Login</h4>
+	</div>
+
+	<div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
+		<form id="loginform" action="/{{ uiurlprefix }}login">
+			<div class="mdl-cell mdl-cell--10-col">
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<input id="email" class="mdl-textfield__input" name="email" /> <label class="mdl-textfield__label" for="email">Email</label>
+				</div>
+				<div id="emailError" class="login-error"></div>
+			</div>
+
+			<div class="mdl-cell mdl-cell--10-col">
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<input id="password" class="mdl-textfield__input" name="password" type="password" id="password" /> <label class="mdl-textfield__label" for="password">Password</label>
+				</div>
+				<div id="passwordError" class="login-error"></div>
+			</div>
+
+			<input id="r" name="r" type="hidden" value="{{ r }}"/>
+			<div class="mdl-cell mdl-cell--10-col">
+				<button id="login" type="submit" formmethod="post" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored">Login</button>
+				<button id="forgot" type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised">Forgot Password</button>
+			</div>
+		</form>
+
+		<span>{{ message }}</span>
+
+	</div>
+</div>
+
+<script>
+    console.clear();
+
+    var loginModule = (function () {
+        function getElementById(id) {
+            return document.getElementById(id);
+        }
+
+        function getEmail() {
+            return getElementById("email");
+        }
+
+        function getEmailError() {
+            return getElementById("emailError");
+        }
+
+        function getPassword() {
+            return getElementById("password");
+        }
+
+        function getPasswordError() {
+            return getElementById("passwordError");
+        }
+
+        function getLogin() {
+            return getElementById("login");
+        }
+
+        function emailFocus() {
+            getEmail().focus();
+        }
+
+        function passwordFocus() {
+            getPassword().focus();
+        }
+
+        function getForgot() {
+            return getElementById("forgot");
+        }
+
+        function disable(element) {
+            // enable/disable buttons for added fun :)
+            element.disabled = {
+                value : true
+            };
+        }
+
+        function enable(element) {
+            // enable/disable buttons for added fun :)
+            if (element.hasAttribute("disabled")) {
+                element.attributes.removeNamedItem("disabled");
+            }
+        }
+
+        function testRegX(regX, value) {
+            return regX.test(value);
+        }
+
+        function setTextContent(element, value) {
+            element.textContent = value;
+        }
+
+        function isValidEmail() {
+            // purposefully simple email regex that matches input type=email.
+            if (!testRegX(/^[^\s@]+@[^\s@]+$/, getEmail().value)) {
+                setTextContent(getEmailError(), 'Invalid Email format.');
+                emailFocus()
+                return false;
+            } else {
+                setTextContent(getEmailError(), null);
+                return true;
+            }
+        }
+
+        function isValidPassword() {
+            if (!testRegX(/\S{9,}/, getPassword().value)) {
+                setTextContent(getPasswordError(),
+                        'Password must be more than 9 characters.');
+                passwordFocus()
+                return false;
+            } else {
+                setTextContent(getPasswordError(), null);
+                return true;
+            }
+        }
+
+        function getKeyupTimeout() {
+            return 250;
+        }
+
+        function emailKeyUp() {
+            window.setTimeout(function () {
+                getEmailError().textContent = null;
+                if (getEmail().value) {
+                    enable(getForgot());
+                } else {
+                    disable(getForgot());
+                }
+            }, getKeyupTimeout());
+        }
+
+        function passwordKeyUp() {
+            window.setTimeout(function () {
+                getPasswordError().textContent = null;
+                if (getEmail().value && getPassword().value) {
+                    enable(getLogin());
+                } else {
+                    disable(getLogin());
+                }
+            }, getKeyupTimeout());
+        }
+
+        function clearEmail() {
+            getEmail().value = null;
+        }
+
+        function clearPassword() {
+            getPassword().value = null;
+        }
+
+        function login() {
+            //        if (isValidEmail() && isValidPassword()) {
+            //          reset();
+            //        }
+        }
+
+        function forgot() {
+            if (isValidEmail()) {
+                console.log('forgot: ' + getEmail().value);
+                clearPassword();
+                passwordFocus();
+            }
+        }
+
+        function reset() {
+            clearEmail();
+            clearPassword();
+            enable(getLogin());
+            disable(getForgot());
+            emailFocus();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            reset();
+
+            getEmail().addEventListener('keyup', function () {
+                emailKeyUp();
+            });
+
+            getPassword().addEventListener('keyup', function () {
+                passwordKeyUp();
+            });
+
+            //        getLogin().addEventListener('click', function() {
+            //          login();
+            //        });
+
+            getForgot().addEventListener('click', function () {
+                forgot();
+            });
+        });
+    })();
+</script>

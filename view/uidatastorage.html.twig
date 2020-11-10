@@ -1,0 +1,135 @@
+<button class="mdl-button mdl-button--raised mdl-js-button dialog-button" style="margin-bottom:10px;">Add new data storage value</button>
+
+<div class="mdl-card mdl-shadow--4dp width90 ">
+
+    <table id="dataStorageTable" class="table table-striped " cellspacing="0" width="100%">
+    	<thead>
+    		<tr>
+    
+    			<th>Category</th>
+    			<th>Key</th>
+    			<th>Value</th>
+    
+    		</tr>
+    	</thead>
+    
+    	<tbody>
+    		{% for tablerow in tableRows %}
+    		<tr>
+    			<td>{{tablerow.category}}</td>
+    			<td>{{tablerow.key}}</td>
+    			<td class="editMe" dataType="{{ tablerow.type }}">{{tablerow.value}}</td>
+    			
+    		</tr>
+    		{% endfor %}
+    
+    	</tbody>
+    </table>
+</div>
+
+<dialog id="dialog" class="mdl-dialog" style="width:min-content;">
+  <h3 class="mdl-dialog__title">Add value</h3>
+  <div class="mdl-dialog__content">
+        <form id="newDataStorageEntry" onsubmit="event.preventDefault();">
+        
+        	      <p>If category + key combination already exists, the value will be overwritten.</p>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input name="DataScategory" class="mdl-textfield__input" type="text" id="DataScategory">
+              <label class="mdl-textfield__label" for="DataScategory">Category</label>
+          </div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input name="DataSkey" class="mdl-textfield__input" type="text" id="DataSkey">
+              <label class="mdl-textfield__label" for="DataSkey" >Key</label>
+          </div>
+
+               
+               	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+		<input type="text" value="" class="mdl-textfield__input" id="statusFilter" readonly> <input type="hidden" value="string" name="DataStype"> <i
+			class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i> <label for="DataStype" class="mdl-textfield__label">Datatype</label>
+		<ul for="DataStype" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+			 {% for dt in datatypes %}
+    			 {% if dt == "string" %}
+    				 <li class="mdl-menu__item" data-selected="true" data-val="{{ dt }}">{{ dt }}</li>
+    			 {% else %}
+	    			 <li class="mdl-menu__item" data-val="{{ dt }}">{{ dt }}</li>
+    			 {% endif %}
+			 {% endfor %}
+			
+		</ul>
+	</div>
+               
+               
+
+      
+          <div class="mdl-textfield mdl-js-textfield">
+            <textarea name="DataSvalue" class="mdl-textfield__input" type="text" rows= "3" id="DataSvalue" ></textarea>
+            <label class="mdl-textfield__label" for="DataSvalue">Value</label>
+          </div>
+        </form>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button type="button" onclick="addNewDataStorageObjectSave();" class="mdl-button">Save</button>
+    <button id="cancelbutton" type="button" class="mdl-button">Cancel</button>
+  </div>
+</dialog>
+
+
+
+<script>
+
+const editor = new SimpleTableCellEditor("dataStorageTable" );
+
+$(document).ready(function () {
+    editor.SetEditableClass("editMe",{
+    
+        keys : {
+          validation: [0],
+          cancellation: [27]
+        },
+        formatter: (val) => {return trimProper(val)},
+        internals: {
+            	renderValue: (elem, formattedNewVal) => { $(elem).text(formattedNewVal); },
+            	renderEditor: (elem, oldVal) => {
+            		$(elem).html(`<textarea style="width:100%; max-width:none;overflow:hidden;"/>`);
+            		var input = $(elem).find('textarea');
+            		input.focus();
+            		input.val(oldVal);
+            		input.height(0).height(input.scrollHeight).change();
+            	},
+            	extractEditorValue: (elem) => { return $(elem).find('textarea').val(); },
+            	extractValue: (elem) => { return $(elem).text(); }
+            }
+                
+    
+        
+      });
+    
+    $('#dataStorageTable').dataTable({
+        "paging": false,
+        "order": [ 0, "asc" ],
+    	"columnDefs": [
+        { "width": "15%", "targets":[0,1] }
+      ]
+    });
+
+
+    var dialogButton = document.querySelector('.dialog-button');
+    var dialog = document.querySelector('#dialog');
+    if (! dialog.showModal) {
+      dialogPolyfill.registerDialog(dialog);
+    }
+    dialogButton.addEventListener('click', function() {
+       dialog.showModal();
+    });
+
+    dialog.querySelector('#cancelbutton')
+    .addEventListener('click', function() {
+      dialog.close();
+    });
+    
+    
+    $('#dataStorageTable').on("cell:edited", function (element) {
+        dataStorageSet(element)
+      }); 
+});
+</script>

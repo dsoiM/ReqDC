@@ -1,0 +1,135 @@
+
+
+{{ include('dateRangePicker.html.twig') }}
+
+{% for ir in ImplReports %}
+	{% if ir.piechart.dataPoints %}
+
+<div class="mdl-card mdl-shadow--4dp width90 owncard">
+	<div class="mdl-card__title">
+		<h2 class="mdl-card__title-text">
+			{{ ir.name }}
+		</h2>
+	</div>
+	<div class="mdl-card__supporting-text width90 makeflex">
+		<div class="mdl-cell mdl-cell--8-col ">
+
+			<div id="lineChart{{ir.id}}"></div>
+		</div>
+
+		<div class="mdl-cell mdl-cell--4-col margintopauto">
+			<div id="doneErrorPie{{ir.id}}"></div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+
+var options = {
+        chart: {
+            width: 380,
+            type: 'pie',
+
+            events: {
+                dataPointSelection: function(event, chartContext, opts) {
+                    var yearChartEl = document.querySelector("#doneErrorPie{{ir.id}}");
+                    var beginDate = $('#beginDate').val();
+                    var endDate = $('#endDate').val();
+					var dp = chartContext.w.globals.selectedDataPoints[0];
+                    var clickedLabel = chartContext.legend.w.config.labels[dp]
+                    var url = encodeURI('/{{ uiurlprefix }}executions?beginDate='+beginDate+'&endDate='+endDate+'&statusFilter='+clickedLabel+'&implementationFilter='+{{ir.id|json_encode|raw}});
+                    window.location.href = url
+                }
+              }
+                
+                  
+                  
+        },
+        labels: {{ir.piechart.labels|json_encode|raw}},
+        series: {{ir.piechart.dataPoints|json_encode|raw}},
+        colors: {{ir.piechart.colors|json_encode|raw}},
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    }
+
+    var chart = new ApexCharts(
+        document.querySelector("#doneErrorPie{{ir.id}}"),
+        options
+    );
+
+    chart.render();
+
+    
+    var options = {
+            chart: {
+              height: 350,
+              type: 'line',
+              zoom: {
+                enabled: false
+              }
+            }, 
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              curve: 'straight'
+            },
+            series: [
+           //    {
+           //   name: "Started",
+           //   data: {{ir.daychart.total.dataPoints|json_encode|raw}}
+           // },
+            {
+                name: "Error",
+                data: {{ir.daychart.error.dataPoints|json_encode|raw}}
+              },
+              {
+                  name: "Done",
+                  data: {{ir.daychart.done.dataPoints|json_encode|raw}}
+                },
+
+              {
+                  name: "Halted",
+                  data: {{ir.daychart.halted.dataPoints|json_encode|raw}}
+                }
+              
+            ],
+
+            colors: {{ir.daychart.colors|json_encode|raw}},
+            
+            title: {
+              text: 'Executions',
+              align: 'left'
+            },
+            grid: {
+              row: {
+                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+              },
+            },
+            xaxis: {
+              categories: {{ir.daychart.labels|json_encode|raw}},
+            }
+          }
+
+          var chart = new ApexCharts(
+            document.querySelector("#lineChart{{ir.id}}"),
+            options
+          );
+
+          chart.render();
+
+    
+</script>
+</div>
+	{% endif %}
+
+{% endfor %}

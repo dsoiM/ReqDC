@@ -1,0 +1,31 @@
+{{ include('dateRangePicker.html.twig') }}
+<div class="mdl-card mdl-shadow--4dp width90 ">
+    <table id="requestsTable" class="table table-striped " cellspacing="0" width="100%">
+    	<thead>
+    		<tr>
+    
+    			<th>Request class</th>
+    			<th>Receive time</th>
+    			<th>Implementation</th>
+    			<th>Content type</th>
+    			<th>Executions</th>
+    			<th>Payload</th>
+    
+    		</tr>
+    	</thead>
+    
+    	<tbody>
+    		{% for tablerow in tableRows %}
+    		<tr id="{{tablerow._id}}">
+    			<td>{{tablerow.reqClassName}}</td>
+    			<td>{{tablerow.time.toDateTime()|date(userviewvars.dateformat,userviewvars.timezone)}}</td>
+    			<td>{{tablerow.implementationId}}</td>
+    			<td>{{tablerow.contentType}}</td>
+    			<td>{% for ex in tablerow.execs %}<a href="/executions/{{ex._id}}">{{ex.startTime.toDateTime()|date(userviewvars.dateformat,userviewvars.timezone)}}</a><br>{% endfor %}</td>
+    			<td style="width:50%;"><div class="payloadcontainer">{{tablerow.payload}}</div></td>
+    		</tr>
+    		{% endfor %}
+    
+    	</tbody>
+    </table>
+</div>

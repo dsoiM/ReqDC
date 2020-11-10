@@ -1,0 +1,27 @@
+<div class="mdl-card mdl-shadow--4dp width90 ">
+	<table id="queueTable" class="table table-striped " cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>Implementation ID</th>
+				<th>Request order ID</th>
+				<th>Queued count</th>
+				<th>Oldest</th>
+
+			</tr>
+		</thead>
+
+
+		<tbody>
+
+			{% for key,tablerow in tableRows %}
+			<tr>
+				<td>{{tablerow.implementationId}}</td>
+				<td>{{key}}</div></td>
+				<td>{{tablerow.count}}</div></td>
+				<td>{{tablerow.oldest.toDateTime()|date(userviewvars.dateformat,userviewvars.timezone)}}</div></td>
+			</tr>
+			{% endfor %}
+		
+		</tbody>
+	</table>
+</div>

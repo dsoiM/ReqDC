@@ -1,0 +1,27 @@
+
+
+<form action="?encryptValue=true" method="POST">
+  Key (if empty, uses current env)
+  <input type="text" name="encryptedValueKey" value="">
+  Encrypt:
+  <input type="text" name="encryptedValue" value="">
+  <input type="submit" value="Submit" >
+</form> 
+
+EncryptedVal: {{encryptedValue}}
+
+<hr>
+
+<form action="?generateNewEncryptionKey=true" method="POST">
+  <input type="submit" value="Generate new encryption key" >
+</form> 
+
+EncryptionKey: {{ generateNewEncryptionKey }}
+
+<form action="?clearSessions=true" method="POST">
+  <input type="submit" value="Clear Sessions" >
+</form> 
+
+
+<hr>
+

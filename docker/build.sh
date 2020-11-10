@@ -1,0 +1,1 @@
+docker build -t reqdc/reqdc:1.0 --build-arg ENVNAME=local --build-arg DOMAIN=localhost --build-arg KEY=def000000d963d5c2d0bd1b9ca2fc0f50055466cfb757ff87f320fa24d7e92a33a55604051db6a80dbda0d75963f27127bccc742d4364299e80abdf6a9b609e5da802277 ..

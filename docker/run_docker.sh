@@ -1,0 +1,1 @@
+docker run -it -p 80:80 -v /mnt/htdocs/reqdc:/var/www/reqdc reqdc/reqdc:1.0
