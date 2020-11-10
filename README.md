@@ -47,8 +47,10 @@ Data storage is a component in the UI for saving values such as integration para
 - MongoDB management knowledge until all UI components are done 
 
 # Quick start
-Clone the repo
-Enter the base directory
+Clone the repo.
+
+Enter the base directory.
+
 Run command: `docker-compose -f docker-compose.yaml up`
 
 If you change any ports in docker compose config, they must be changed in PHP config as well.
