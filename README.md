@@ -49,7 +49,7 @@ Data storage is a component in the UI for saving values such as integration para
 # Quick start
 Clone the repo.
 
-Enter the base directory.
+Enter directory `/docker`.
 
 Run command: `docker-compose -f docker-compose.yaml up`
 
@@ -104,6 +104,10 @@ Then run script docker/composer_up_development.sh
 
 
 Run with docker compose
+
+# Configuration
+All configuration can be found in config -directory. It also contains templates for docker container and DB init
+Separate environment support can be done by creating separate config files such as config_prod.php
 
 # API description
 
