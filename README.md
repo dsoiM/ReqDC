@@ -86,6 +86,9 @@ Or most simply doing the same thing from the built-in UI tester:
 ![](images/implementationtester.jpg)
 
 
+# Run tests
+Containers must be running using docker compose.
+Execute script `./run_tests.sh`
 
 # Adding users
 Adding users via UI is WIP. Currently it is done by connecting to DB and cloning existing user in "users" collection and modifying the document
