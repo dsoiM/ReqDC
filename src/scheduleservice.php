@@ -32,7 +32,7 @@ class ScheduleService
     public static function main()
     {
         ob_start();
-        require_once 'autoload.php';
+        require_once 'src/autoload.php';
         // We need to overwrite max execution time to be infinite in scheduleservice
         ini_set('max_execution_time', 0);
         su::endOB();

@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 class InitTests extends TestCase {
     
     public function setUp():void {
-        require_once 'autoload.php';
+        require_once 'src/autoload.php';
         $user = user::getById(TestConfig::userId);
         $user->selectTenantAndSaveToSession(TestConfig::testTenantID);
         

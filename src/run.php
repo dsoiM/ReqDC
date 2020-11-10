@@ -17,7 +17,7 @@ class Run
     {
         ob_start();
         
-        require_once ("autoload.php");
+        require_once ("src/autoload.php");
         
         Config::setLogfileLocation(Config::get('RUNLOGFILE'));
 

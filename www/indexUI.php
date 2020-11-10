@@ -1,5 +1,5 @@
 <?php
 chdir('..');
-require_once ("autoload.php");
+require_once ("src/autoload.php");
 config::setLogfileLocation(Config::get('UILOGFILE'));
 MainUI::handle();
