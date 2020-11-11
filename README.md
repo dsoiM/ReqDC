@@ -157,7 +157,7 @@ By default requests are asynchronous. Enabling synchronous handling can be contr
 
 ### Asynchronous
 
-Requests done with default asynchronous mode enter a message queue and the message queue will be processed afterwards in the background using. A response is sent immediately without knowing the result of the execution. By default 20 maximum concurrent asynchronous requests per implementation are being handled at any given moment. This number is adjustable if needed.
+Requests done with default asynchronous mode enter a message queue and the message queue will be processed afterwards in the background. A response is sent immediately without knowing the result of the execution. By default 20 maximum concurrent asynchronous requests per implementation are being handled at any given moment. This number is adjustable if needed.
 
 Asynchronous is similar to Fire-and-Forget -method
 
@@ -172,7 +172,6 @@ Synchronous requests will be processed during the connection - the connection wi
 401 Invalid credentials
 412 Request processing error, usually indicates the client has used invalid parameters on the request
 500 Server error
-
 ## Response body
 
 Default response with asychronous requests responds with requestId and scheduleId:

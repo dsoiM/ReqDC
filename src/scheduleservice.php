@@ -80,7 +80,7 @@ class ScheduleService
 
     public function exitIfAlreadyRunning()
     {
-        $pids = null;
+        $pids = [];
         $x = exec("ps aux | grep -i 'src/scheduleservice' | grep -v grep", $pids);
         if (count($pids) < Config::get('MAXSCHEDULESERVICES') +1) {
             Log::debug("ScheduleService not running or less than allowed, allowing this instance to start up");

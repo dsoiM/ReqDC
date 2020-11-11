@@ -26,6 +26,5 @@ class Config_Local extends Config
     // Contains "what"
     const UNITTESTSECRET = "def502002290c4fb146ea4850784940e773bc06b8cbcbf24b1c3a000a0942a12ec1a2cc0e1f0c88fce39cd5012d00dbdccc293e640bb6e342a760d875468f0284cbf663dc35765bdbb6927db2443b43aeb39fb50dcc301de"; 
 
-    const MAXSCHEDULESERVICES = 4;
 }
 
