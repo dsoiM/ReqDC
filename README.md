@@ -49,9 +49,9 @@ Data storage is a component in the UI for saving values such as integration para
 # Quick start
 Clone the repo.
 
-Enter directory `/docker`.
+Enter directory `docker/`.
 
-Run command: `docker-compose -f docker-compose.yaml up`
+Run command: `docker-compose build && docker-compose -f docker-compose.yaml up`
 
 If you change any ports in docker compose config, they must be changed in PHP config as well.
 

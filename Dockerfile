@@ -59,7 +59,7 @@ RUN rm -rf /var/www/html/*
 RUN chmod a+rwx /var/log/reqdc
 
 RUN chmod a+rwx /var/www/reqdc
-RUN chmod -R a+rwx /var/www/reqdc/*
+
 
 #For development mount
 RUN echo "formount:x:982:" >> /etc/group
@@ -74,6 +74,7 @@ RUN echo "$KEY" > /var/www/KEY
 
 #Dont add anything after copy unless it is needed by copy so dev building  is fast
 COPY . /var/www/reqdc
+RUN chmod -R a+rwx /var/www/reqdc/*
 RUN envsubst < /var/www/reqdc/config/httpd.conf.template > /etc/httpd/conf/httpd.conf
 
 
