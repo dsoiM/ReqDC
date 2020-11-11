@@ -57,12 +57,12 @@ RUN if [ "x$XDEBUG_REMOTE_HOST" = "x" ] ; then echo Not installing xdebug ; else
 
 #-----Try not to add anything before this line-----
 
-
+#Create crontab which keeps scheduleservice alive in case it dies
 RUN crontab -l | { cat; echo "* * * * * cd /var/www/reqdc/ && shellscripts/start_scheduleservice.sh"; } | crontab -
 
+#directory rights and cleanup BAU
 RUN rm -rf /var/www/html/*
 RUN chmod a+rwx /var/log/reqdc
-
 RUN chmod a+rwx /var/www/reqdc
 
 

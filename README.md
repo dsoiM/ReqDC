@@ -100,7 +100,7 @@ An entry needs to exist in DB as well as the implementation file in Implementati
 # How to develop your implementation
 
 Configure the file docker/docker-compose-development.yaml to point to your code as well as your debugger XDebug IP. XDebug will be autostart enabled
-Then run script docker/composer_up_development.sh
+Then run scrip `docker/composer_up_development.sh`
 
 # Configuration
 All configuration can be found in config -directory. It also contains templates for docker container and DB init
