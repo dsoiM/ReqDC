@@ -51,9 +51,14 @@ COPY composer.json /var/www/reqdc/composer.json
 WORKDIR /var/www/reqdc
 RUN composer install
 
-#Try not to add anything before this line
-RUN crontab -l | { cat; echo "* * * * * cd /var/www/reqdc/ && shellscripts/start_scheduleservice.sh"; } | crontab -
+ARG XDEBUG_REMOTE_HOST
+COPY shellscripts/enable_xdebug_php.sh /tmp/enable_xdebug_php.sh
+RUN if [ "x$XDEBUG_REMOTE_HOST" = "x" ] ; then echo Not installing xdebug ; else /tmp/enable_xdebug_php.sh ;fi
 
+#-----Try not to add anything before this line-----
+
+
+RUN crontab -l | { cat; echo "* * * * * cd /var/www/reqdc/ && shellscripts/start_scheduleservice.sh"; } | crontab -
 
 RUN rm -rf /var/www/html/*
 RUN chmod a+rwx /var/log/reqdc

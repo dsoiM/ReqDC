@@ -47,12 +47,10 @@ Data storage is a component in the UI for saving values such as integration para
 - MongoDB management knowledge until all UI components are done 
 
 # Quick start
-Clone the repo.
-
-Enter directory `docker/`.
-
+Clone the repo: `git clone https://github.com/dsoiM/ReqDC.git`
+Enter directory: `cd ReqDC/docker`.
 Run command: `docker-compose build && docker-compose -f docker-compose.yaml up`
-
+Note that build will take several minutes
 If you change any ports in docker compose config, they must be changed in PHP config as well.
 
 # Enter the UI
@@ -101,12 +99,8 @@ An entry needs to exist in DB as well as the implementation file in Implementati
 
 # How to develop your implementation
 
-Configure the file docker/docker-compose-development.yaml to point to your code
+Configure the file docker/docker-compose-development.yaml to point to your code as well as your debugger XDebug IP. XDebug will be autostart enabled
 Then run script docker/composer_up_development.sh
-
-
-
-Run with docker compose
 
 # Configuration
 All configuration can be found in config -directory. It also contains templates for docker container and DB init
