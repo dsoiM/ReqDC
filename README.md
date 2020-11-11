@@ -48,10 +48,15 @@ Data storage is a component in the UI for saving values such as integration para
 
 # Quick start
 Clone the repo: `git clone https://github.com/dsoiM/ReqDC.git`
+
 Enter directory: `cd ReqDC/docker`.
+
 Run command: `docker-compose build && docker-compose -f docker-compose.yaml up`
+
 Note that build will take several minutes.
+
 If you change any ports in docker compose config, they must be changed in PHP config as well.
+
 
 # Enter the UI
 After all the containers are running you can point your browser to http://127.0.0.1:12100
